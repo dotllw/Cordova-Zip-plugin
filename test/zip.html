@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+
+ Licensed to the Apache Software Foundation (ASF) under one
+ or more contributor license agreements.  See the NOTICE file
+ distributed with this work for additional information
+ regarding copyright ownership.  The ASF licenses this file
+ to you under the Apache License, Version 2.0 (the
+ "License"); you may not use this file except in compliance
+ with the License.  You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing,
+ software distributed under the License is distributed on an
+ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ KIND, either express or implied.  See the License for the
+ specific language governing permissions and limitations
+ under the License.
+
+-->
+
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,maximum-scale=1.0,initial-scale=1.0" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8"> <!-- ISO-8859-1 -->
+    <title>Cordova Mobile Spec</title>
+    <link rel="stylesheet" href="master.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script type="text/javascript" charset="utf-8" src="../cordova.js"></script>
+    <script type="text/javascript" charset="utf-8">
+        function Success() {
+            document.getElementById('status').innerHTML = "Success";
+        }
+
+        function Error(errorcode) {
+            document.getElementById('status').innerHTML = "Error: errorcode = " + errorcode;
+        }
+
+        function ZipOneFile(){
+            var filePath ="/mnt/sdcard/Android/appworkspace/MyFile.txt";
+            var zipFilePath2 ="/mnt/sdcard/Android/appworkspace/mypath/MyZip.zip";
+            document.getElementById('action').innerHTML = "Zip One File";
+            xFace.Zip.zip(filePath, zipFilePath2, Success, Error); //将压缩后的文件MyZip.zip保存到当前目录的mypath文件夹下
+        }
+
+        function ZipOneFileWithPassword(){
+            var filePath ="/mnt/sdcard/Android/appworkspace/MyFile.txt";
+            var zipFilePath ="/mnt/sdcard/Android/appworkspace/MyZip.zip";
+            document.getElementById('action').innerHTML = "Zip One File With Password";
+            xFace.Zip.zip(filePath, zipFilePath, Success, Error, {password:"test"}); //将压缩后的文件“MyZip.zip”保存当前目录
+        }
+
+        function UnzipFile(){
+            var dstFolderPath = "/mnt/sdcard/Android/appworkspace/MyDstFolder";
+            var zipFilePath ="/mnt/sdcard/Android/appworkspace/MyZip.zip";
+            document.getElementById('action').innerHTML = "Unzip File";
+            xFace.Zip.unzip(zipFilePath, dstFolderPath, Success, Error, {password:"test"});
+        }
+
+        function ZipManyFilesOrFolders(){
+            var zipFilePath ="/mnt/sdcard/Android/appworkspace/MyZip.zip";
+            document.getElementById('action').innerHTML = "Zip Many Files Or Folders";
+            xFace.Zip.zipFiles(["/mnt/sdcard/Android/appworkspace/MyZip", "/mnt/sdcard/Android/appworkspace/test.txt", "/mnt/sdcard/Android/appworkspace/index.html"],zipFilePath, Success, Error, {password:"test"});
+        }
+    </script>
+
+  </head>
+  <body id="stage" class="theme">
+    <h1>Zip</h1>
+    <div id="action">Action:</div>
+    <div id="status">Status:</div>
+    <h2>xFace Zip API</h2>
+    <div id="descr">
+        测试说明: <br/>
+        测试目的：解、压缩文件（夹）测试<br/>
+        1.Zip One File按钮，测试压缩一个文件，成功提示成功信息，失败提示错误码。测试前需要保证在手机中存在文件："/mnt/sdcard/Android/appworkspace/MyFile.txt"<br/>
+        1.Zip One File按钮，测试压缩一个文件,带密码，成功提示成功信息，失败提示错误码。测试前需要保证在手机中存在文件："/mnt/sdcard/Android/appworkspace/MyFile.txt"<br/>
+        3.Zip Many Files Or Folders按钮，测试压缩多个文件（夹），成功提示成功信息，失败提示错误码。测试前需要保证在手机中存在下面的文件和文件夹：<br/>
+        &nbsp;&nbsp;&nbsp;文件夹：/mnt/sdcard/Android/appworkspace/MyZip<br/>
+        &nbsp;&nbsp;&nbsp;文件：/mnt/sdcard/Android/appworkspace/test.txt<br/>
+        &nbsp;&nbsp;&nbsp;文件：/mnt/sdcard/Android/appworkspace/index.html<br/>
+        4.Unzip File(s)按钮，测试解压文件操作，成功提示成功信息，失败提示错误码。测试前需要保证存在压缩包：/mnt/sdcard/Android/appworkspace/MyZip.zip，由于前面1、2、3步中的压缩后的文件名就是MyZip.zip,所以在执行解压按钮时，至少执行一次前面的任意一个按钮，就可以保证MyZip.zip压缩包一定存在。解压后的文件和文件夹都会被放到文件夹“/mnt/sdcard/Android/appworkspace/MyDstFolder”中<br/>
+    </div>
+    <h2>Actions</h2>
+    <div class="btn large" onclick="ZipOneFile();">Zip One File</div>
+    <div class="btn large" onclick="ZipOneFileWithPassword();">Zip One File With Password</div>
+    <div class="btn large" onclick="ZipManyFilesOrFolders();">Zip Many Files Or Folders</div>
+    <div class="btn large" onclick="UnzipFile();">Unzip File(s)</div>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.polyvi.xface.extension.zip"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        version="3.2.0">
+
+    <name>Zip</name>
+    <author>PolyVi Inc.</author>
+    <description>xFace Zip Plugin</description>
+    <license>Apache 2.0</license>
+    <keywords>cordova,xface,zip</keywords>
+
+
+    <js-module src="www/Zip.js" name="Zip">
+        <clobbers target="window.xFace.Zip" />
+    </js-module>
+
+    <js-module src="www/ZipError.js" name="ZipError">
+        <clobbers target="ZipError" />
+    </js-module>
+
+    <js-module src="www/ZipOptions.js" name="ZipOptions">
+        <clobbers target="ZipOptions" />
+    </js-module>
+
+    <engines>
+      <engine name="cordova" version=">=2.5.0" />
+    </engines>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Zip">
+                <param name="android-package" value="com.polyvi.xface.extension.XZipExt"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        </config-file>
+
+        <source-file src="src/android/XZipExt.java" target-dir="src/com/polyvi/xface/extension" />
+
+     </platform>
+</plugin>
